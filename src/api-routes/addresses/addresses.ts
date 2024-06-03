@@ -141,3 +141,5 @@ addressesRouter.Get("/addresses/identifier", async (req, res) => {
     }
   }
 });
+
+export { addressesRouter };
