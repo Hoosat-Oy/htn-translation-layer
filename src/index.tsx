@@ -1,16 +1,12 @@
-import React from "react";
 import dotenv from "dotenv";
-import { I18nextProvider } from "react-i18next";
-import i18n from "./core/i18n";
 import { cors } from "./core/cors";
 import { createRouter, createServer, listen } from "./core/server";
 import { assets } from "./core/assets";
-import { upload } from "./core/upload";
 import { pingRouter } from "./api-routes/ping";
-import { renderer } from "./core/renderer";
 import { DEBUG } from "./core/errors";
 import { APIRouter } from "./api-routes";
 import { writeNonceToFile } from "./core/nonce";
+import mongoose from "mongoose";
 
 dotenv.config();
 
@@ -21,6 +17,15 @@ if (isDevelopment) {
 }
 
 writeNonceToFile();
+
+mongoose.set("strictQuery", true);
+mongoose.connect(process.env.ATLAS_URI!, {
+  autoIndex: true,
+});
+mongoose.connection.on("error", (err) => {
+  console.error("Mongoose error event: ", err);
+});
+console.log("Mongoose connected.");
 
 // Create a router
 const router = createRouter();
