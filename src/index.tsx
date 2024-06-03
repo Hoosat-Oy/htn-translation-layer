@@ -1,17 +1,16 @@
-import React from 'react';
-import dotenv from 'dotenv';
-import { I18nextProvider } from 'react-i18next';
-import i18n from './core/i18n';
-import { cors } from './core/cors';
-import { createRouter, createServer, listen } from './core/server';
-import { assets } from './core/assets';
-import { upload } from './core/upload';
-import { pingRouter } from './api-routes/ping';
-import { renderer } from './core/renderer';
-import { DEBUG } from './core/errors';
-import { APIRouter } from './api-routes';
-import { writeNonceToFile } from './core/nonce';
-
+import React from "react";
+import dotenv from "dotenv";
+import { I18nextProvider } from "react-i18next";
+import i18n from "./core/i18n";
+import { cors } from "./core/cors";
+import { createRouter, createServer, listen } from "./core/server";
+import { assets } from "./core/assets";
+import { upload } from "./core/upload";
+import { pingRouter } from "./api-routes/ping";
+import { renderer } from "./core/renderer";
+import { DEBUG } from "./core/errors";
+import { APIRouter } from "./api-routes";
+import { writeNonceToFile } from "./core/nonce";
 
 dotenv.config();
 
@@ -34,7 +33,7 @@ router.UseRouter(pingRouter);
  * @param {string} origins - The allowed origins, separated by commas.
  * @param {string} methods - The allowed HTTP methods, separated by commas.
  */
-router.Middleware(cors(process.env.ORIGINS || "localhost:8080", 'GET, POST, PUT, DELETE'));
+router.Middleware(cors(process.env.ORIGINS || "localhost:8000", "GET, POST, PUT, DELETE"));
 
 /**
  * Middleware to serve static files from the "public" directory.
@@ -73,34 +72,8 @@ DEBUG.log("APIRouter added.");
  * @param {Object} res - The response object.
  */
 router.Get("*", async (_req, res) => {
-  /**
-   * Represents the JSX element for the server-side rendering.
-   * @type {JSX.Element}
-   */
-  const jsx: JSX.Element = 
-        <I18nextProvider i18n={i18n}>
-          <html lang="FI-fi">
-            <head>
-              <meta charSet="utf-8" />
-              <link rel="icon" href="favicon.ico" />
-              <meta name="viewport" content="width=device-width, initial-scale=1" />
-              <link rel="manifest" href="manifest.json" />
-            </head>
-            <body>
-              <div id="root">
-                <p>Nothing to see here!</p>
-              </div>
-            </body>
-          </html>
-        </I18nextProvider>
-  renderer({
-    res: res, 
-    jsx: jsx, 
-    publicDir: publicDir,
-    headTags: {}
-  });
+  res.send("Nothing here!");
 });
-
 
 // Create the server
 const server = createServer(router);

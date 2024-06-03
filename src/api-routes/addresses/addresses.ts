@@ -34,7 +34,7 @@ const addressesRouter = createRouter();
  * @returns {string} 500.message - Error message
  */
 
-addressesRouter.Post("/addresses/identifier", async (req, res) => {
+addressesRouter.Post("/api/addresses/identifier", async (req, res) => {
   try {
     const confirmTokenResult = await confirmToken(req.body.authorization);
     if (confirmTokenResult.result == "success") {
@@ -83,7 +83,7 @@ addressesRouter.Post("/addresses/identifier", async (req, res) => {
  * @returns {string} 500.message - Error message
  */
 
-addressesRouter.Post("/addresses/address", async (req, res) => {
+addressesRouter.Post("/api/addresses/address", async (req, res) => {
   try {
     const { authorization, identifier, address, token } = req.body;
     const confirmTokenResult = await confirmToken(authorization);
@@ -123,9 +123,12 @@ addressesRouter.Post("/addresses/address", async (req, res) => {
  * @returns {string} 404.message - Error message
  */
 
-addressesRouter.Get("/addresses/identifier", async (req, res) => {
+addressesRouter.Get("/api/addresses/:identifier", async (req, res) => {
   try {
-    const { identifier } = req.body;
+    if (req.params === undefined) {
+      return res.status(404).json({ result: "error", message: "No parameters" });
+    }
+    const identifier = req.params["identifier"];
     const result = await getAddresses(identifier);
     if (result.result === "success") {
       return res.status(200).json(result);
