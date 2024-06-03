@@ -1,8 +1,8 @@
-import { createRouter } from "src/core/server";
+import { createRouter } from "../../core/server";
 import { DEBUG } from "../../core/errors";
-import { confirmToken } from "src/lib/access/sessions";
-import { addIdentifier, getIdentifier } from "src/lib/addresses/identifiers";
-import { addAddress, getAddresses } from "src/lib/addresses/addresses";
+import { confirmToken } from "../../lib/access/sessions";
+import { addIdentifier } from "../../lib/addresses/identifiers";
+import { addAddress, getAddresses } from "../../lib/addresses/addresses";
 
 /**
  * @route POST /addresses/identifier
