@@ -1,0 +1,7 @@
+{
+  "accountRegisteration": {
+    "subject": "Hoosat Networks",
+    "message": "Hey,\r\n\r\nYou registered account at Hoosat Network.\r\n\r\nYou can activate your account in:\r\nhttps://hoosat.fi/activate/{code}\r\n\r\nThank you,\r\n\r\nHoosat Oy",
+    "sender": "hoosat-notifications@gmail.com"
+  }
+}

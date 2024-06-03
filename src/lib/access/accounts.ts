@@ -1,15 +1,17 @@
 import Cryptology from "../common/Cryptology";
 import Mailer from "../common/Mailer";
-import accountsSchema, { AccountsDTO } from "./schemas/accountsSchema"
+import { readFileSync } from "fs";
+import { join } from "path";
+import accountsSchema, { AccountsDTO } from "./schemas/accountsSchema";
 
 interface AccountResultDTO {
-  result: string,
-  message: string,
-  account: AccountsDTO
+  result: string;
+  message: string;
+  account: AccountsDTO;
 }
 
-export const createAccount = async(account: AccountsDTO): Promise<AccountResultDTO> => {
-  if(account.password === undefined) {
+export const createAccount = async (account: AccountsDTO): Promise<AccountResultDTO> => {
+  if (account.password === undefined) {
     throw new Error("Account password was emtpy.");
   }
   const newAccount = new accountsSchema({
@@ -29,45 +31,37 @@ export const createAccount = async(account: AccountsDTO): Promise<AccountResultD
     result: "success",
     message: "Account created.",
     account: savedAccount,
-  }
-}
+  };
+};
 
 export const getAccount = async (account: AccountsDTO): Promise<AccountResultDTO> => {
   const foundAccount = await accountsSchema.findOne({ _id: account._id }).exec();
-  if(foundAccount === null) {
+  if (foundAccount === null) {
     throw new Error("Could not find a account with the identifier.");
   }
   return {
     result: "success",
     message: "Found account with the identifier",
     account: foundAccount,
-  }
-}
+  };
+};
 
-export const sendActivationLink = async (
-  email: string,
-  activationCode: string
-) => {;
-  // TODO: Change registeration activation message and link!
-  let subject = "Hoosat CMS käyttäjätunnuksen aktivointi.";
-  let message = "Hei sinä,\r\n\r\n";
-  message += `Kävit rekisteröitymässä Hoosatin CMS.\r\n\r\n`;
-  message += `Voit aktivoida käyttäjätunnuksesi osoitteessa:\r\n`;
-  message += `https://hoosat.fi/activate/${activationCode}\r\n\r\n`;
-  message += "Ystävällisin terveisin,\r\n\r\nHoosat Oy";
-  return await Mailer.sendMail({ from: "authentication@hoosat.fi", to: email, subject: subject, text: message });
-}
+export const sendActivationLink = async (email: string, activationCode: string) => {
+  const i18n = JSON.parse(readFileSync(join(__dirname, "/public/i18n/fi.json"), "utf-8"));
+  let subject = i18n.accountRegisteration.subject;
+  let message = i18n.accountRegisteration.message.replace("{code}", activationCode);
+  let sender = i18n.accountRegisteration.sender;
+  return await Mailer.sendMail({ from: sender, to: email, subject: subject, text: message });
+};
 
-export const activateAccount = async (
-  code: string
-): Promise<AccountResultDTO> => {
-  const account = await accountsSchema.findOneAndUpdate({ activationCode: code }, { active: true }, { new: true}).exec();
-  if(account == null) {
+export const activateAccount = async (code: string): Promise<AccountResultDTO> => {
+  const account = await accountsSchema.findOneAndUpdate({ activationCode: code }, { active: true }, { new: true }).exec();
+  if (account == null) {
     throw new Error("Failed to activate account.");
   }
   return {
     result: "success",
     message: "Account activated",
     account: account,
-  }
-}
+  };
+};

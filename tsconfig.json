@@ -10,10 +10,7 @@
     // Enable JSX support for React components
     "jsx": "react",
     // Specify the library files to include
-    "lib": [
-      "ES2020",
-      "dom"
-    ],
+    "lib": ["ES2020", "dom"],
     // Enable source maps for easier debugging
     "sourceMap": true,
     // Allow importing modules with default exports
@@ -46,14 +43,14 @@
     "noUnusedParameters": true,
     // Enable @types in src folder.
     "baseUrl": "./",
-    "plugins": [{ "name": "typescript-plugin-css-modules" }],
+    "plugins": [{ "name": "typescript-plugin-css-modules" }]
   },
   "ts-node": {
     "files": true,
     "transpileOnly": true,
     "compilerOptions": {
       "baseUrl": "./",
-      "module": "ESNext", 
+      "module": "ESNext",
       "moduleResolution": "node"
     }
   },

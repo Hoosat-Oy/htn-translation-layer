@@ -1,8 +1,8 @@
 import { createRouter } from "../core/server";
-import { commonRouter } from "./common";
+import { accessRouter } from "./access";
 
 const APIRouter = createRouter();
 
-APIRouter.UseRouter(commonRouter);
+APIRouter.UseRouter(accessRouter);
 
-export { APIRouter }
+export { APIRouter };
