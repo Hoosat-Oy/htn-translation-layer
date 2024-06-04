@@ -36,7 +36,7 @@ const addressesRouter = createRouter();
 
 addressesRouter.Post("/api/addresses/identifier", async (req, res) => {
   try {
-    const confirmTokenResult = await confirmToken(req.body.authorization);
+    const confirmTokenResult = await confirmToken(req.headers.authorization);
     if (confirmTokenResult.result == "success") {
       const result = await addIdentifier(confirmTokenResult.account, req.body.identifier);
       if (result.result == "success") {
@@ -85,8 +85,8 @@ addressesRouter.Post("/api/addresses/identifier", async (req, res) => {
 
 addressesRouter.Post("/api/addresses/address", async (req, res) => {
   try {
-    const { authorization, identifier, address, token } = req.body;
-    const confirmTokenResult = await confirmToken(authorization);
+    const { identifier, address, token } = req.body;
+    const confirmTokenResult = await confirmToken(req.headers.authorization);
     if (confirmTokenResult.result == "success") {
       const result = await addAddress(identifier, address, token);
       if (result.result == "success") {
