@@ -5,19 +5,19 @@ services:
     build: .
     container_name: htn-translation-layer
     ports:
-      - "8000:8000"
+      - "8005:8000"
     environment:
       PROTOCOL: HTTP
       PORT: 8000
       ORIGINS: localhost:8000
-      ATLAS_URI: mongodb://mongodb:27017/htn-translation-layer
+      ATLAS_URI: mongodb://admin:password@mongodb:27017/htn-translation-layer?authSource=admin
       HTTPS_CERT: /etc/letsencrypt/live/hoosat.fi/cert.pem
       HTTPS_KEY: /etc/letsencrypt/live/hoosat.fi/privkey.pem
       HTTPS_CA: /etc/letsencrypt/live/hoosat.fi/chain.pem
       EMAIL_SERVER_TYPE: service
-      EMAIL_SERVICE:
-      EMAIL_USERNAME:
-      EMAIL_PASSWORD:
+      EMAIL_SERVICE: gmail
+      EMAIL_USERNAME: hoosat.notifications@gmail.com
+      EMAIL_PASSWORD: ajwy gvsq sdgc epdx
     depends_on:
       - mongodb
 
@@ -32,6 +32,5 @@ services:
       MONGO_INITDB_DATABASE: htn-translation-layer
     volumes:
       - mongodb_data:/data/db
-
 volumes:
   mongodb_data:
