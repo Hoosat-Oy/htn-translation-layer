@@ -21,7 +21,7 @@ export const createAccount = async (account: AccountsDTO): Promise<AccountResult
     fullname: account.fullname,
     role: "",
     applications: "HTN-Translation-layer",
-    active: false,
+    active: true,
     activationCode: Cryptology.generateString(16),
     createdAt: Date.now(),
     updatedAt: Date.now(),

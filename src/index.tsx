@@ -38,7 +38,7 @@ router.UseRouter(pingRouter);
  * @param {string} origins - The allowed origins, separated by commas.
  * @param {string} methods - The allowed HTTP methods, separated by commas.
  */
-router.Middleware(cors(process.env.ORIGINS || "localhost:8000", "GET, POST, PUT, DELETE"));
+router.Middleware(cors(process.env.ORIGINS || "localhost:3080", "GET, POST, PUT, DELETE"));
 
 /**
  * Middleware to serve static files from the "public" directory.

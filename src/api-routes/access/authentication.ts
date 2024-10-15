@@ -87,14 +87,7 @@ authenticationRouter.Post("/api/authentication/register", async (req, res) => {
     if (account.email === undefined) {
       throw new Error("Just created account email is undefined.");
     }
-    if (account.activationCode === undefined) {
-      throw new Error("Just created account activation code is undefined.");
-    }
-    const mailResult = await sendActivationLink(account.email, account.activationCode);
-    if (mailResult === false) {
-      throw new Error("Failed to email activation link, but account was created.");
-    }
-    return res.status(200).json({ result: "success", message: "Account created and activation email has been sent.", account: account });
+    return res.status(200).json({ result: "success", message: "Account created.", account: account });
   } catch (error) {
     DEBUG.log(error);
     DEBUG.log(error);
